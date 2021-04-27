@@ -1,0 +1,136 @@
+<div class="container">
+
+  <form [formGroup]="leaveApplicationForm" (ngSubmit)="onFormSubmit()" >
+    <br>
+    <div class="row">
+     
+        <div class="col-sm-2">Applicant</div>
+        <div class="col-sm-4">
+        <select class="form-control"  formControlName="applicantId" (change)="applicantChange($event)">
+          <option value="">&nbsp;</option>
+          <option *ngFor="let user of users" [ngValue]="user.id">{{user.name}}</option>
+        </select>
+      </div>
+        <div class="col-sm-2">Manager</div>
+        <div class="col-sm-4">
+        <select class="form-control"  formControlName="managerId" (change)="managerChange($event)" >
+          <option value="">&nbsp;</option>
+          <option *ngFor="let user of users" [ngValue]="user.id">{{user.name}}</option>
+
+        </select>
+      </div>
+        
+      
+    </div>
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger"  *ngIf="getControl.applicantId.touched && getControl.applicantId.errors?.required" >
+        Applicant is required
+      </div> 
+      <div class="col-sm-4 text-danger"  *ngIf="applicantValid==false" >
+        Applicant can not be the same as Manager
+      </div> 
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger" *ngIf="getControl.managerId.touched && getControl.managerId.errors?.required">
+        Manager is required
+      </div>
+      <div class="col-sm-4 text-danger"  *ngIf="managerValid==false">
+       Manager can not be the same as Applicant
+      </div> 
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-2">Start date</div>
+      <div class="col-sm-4">
+      
+       <input [owlDateTime]="sd" formControlName="startDate" class="form-control" [owlDateTimeTrigger]="sd" (change)="dateChange($event)"> 
+       
+      <owl-date-time [pickerType]="'calendar'" #sd></owl-date-time>
+
+     </div>
+     
+     <div class="col-sm-2">End date</div>
+     <div class="col-sm-4">
+      
+        <input [owlDateTime]="ed" formControlName="endDate" class="form-control" [owlDateTimeTrigger]="ed" (change)="dateChange($event)"> 
+        
+           <owl-date-time [pickerType]="'calendar'" #ed></owl-date-time>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger"  *ngIf="getControl.startDate.touched && getControl.startDate.errors?.required" >
+        Start date  is required
+      </div> 
+      <div class="col-sm-4 text-danger"  *ngIf="startDateValid==false" >
+        "Start date" can not be greater than "End date" or "Return date"  
+      </div> 
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger" *ngIf="getControl.endDate.touched && getControl.endDate.errors?.required">
+        End date is required
+      </div>
+      <div class="col-sm-4 text-danger"  *ngIf="endDateValid==false" >
+        "End date" can not be greater than "Return date"   
+      </div> 
+    </div>
+
+    <br>
+    <div class="row">
+      <div class="col-sm-2">Return date</div>
+      <div class="col-sm-4">
+      
+       <input [owlDateTime]="rd" formControlName="returnDate" class="form-control" [owlDateTimeTrigger]="rd" (change)="dateChange($event)"> 
+       
+      <owl-date-time [pickerType]="'calendar'" #rd></owl-date-time>
+
+     </div>
+     
+     <div class="col-sm-2">Number of days</div>
+     <div class="col-sm-4">
+      
+        <input class="form-control" formControlName="numberOfDays" type="number" step="1" min="1"> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger"  *ngIf="getControl.returnDate.touched && getControl.returnDate.errors?.required" >
+        "Return date"  is required
+      </div> 
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger" *ngIf="getControl.numberOfDays.touched && getControl.numberOfDays.errors?.required">
+        "Number of days" is required
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-2">General comments</div>
+      <div class="col-sm-4">
+        <textarea rows="5" cols="47" class="fome-control"  formControlName="comments" maxlength="500"></textarea>
+      </div>
+      <div class="col-sm-6">&nbsp;</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4 text-danger"  *ngIf="getControl.comments.touched && getControl.comments.invalid" >
+        "Comments" can not over 500 characters 
+      </div> 
+      <div class="col-sm-6">&nbsp;</div>
+      
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-4">
+        <button type="submit" mat-raised-button color="accent" matTooltip="Click Submit Button" [disabled]="!leaveApplicationForm.valid">Submit</button>  
+      </div>
+      <div class="col-sm-4">
+        <button type="reset" mat-raised-button color="accent" matTooltip="Click Cancel Button" (click)="resetForm()">Cancel</button>  
+      </div>
+      <div class="col-sm-2">&nbsp;</div>
+    </div>
+  </form>
+
+</div>
+
+
